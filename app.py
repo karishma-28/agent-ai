@@ -1,18 +1,26 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import Optional
-import agent4
+from typing import List, Optional
+import asyncio
+from agents.manager_agent import manager_agent_process
 
-app = FastAPI(title="Modular AI Agents System with Gemini & Groq")
+app = FastAPI()
 
-class UserInput(BaseModel):
+class ProcessRequest(BaseModel):
     input_text: str
-    documents: Optional[list[str]] = None
+    documents: Optional[List[str]] = None
+
+@app.get("/")
+async def root():
+    return {"message": "Welcome to the AI Agent API! Use the /process endpoint via POST."}
 
 @app.post("/process")
-async def process_input(user_input: UserInput):
-    try:
-        response = await agent4.manager_agent_process(user_input.input_text, user_input.documents)
-        return response
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+async def process(request: ProcessRequest):
+    user_input = request.input_text
+    documents = request.documents if request.documents else None
+
+    if not user_input:
+        raise HTTPException(status_code=400, detail="input_text is required.")
+
+    result = await manager_agent_process(user_input, documents)
+    return result
