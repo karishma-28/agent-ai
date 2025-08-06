@@ -1,6 +1,6 @@
 ## AI Agents System
 
-### Description
+<!--### Description
 A modular system of AI agents where each agent performs a specific task, orchestrated by a Manager Agent that analyzes user inputs and selects the most appropriate agent(s).
 
 ### Step-by-Step: Setup, Run, and Test
@@ -44,5 +44,5 @@ uvicorn app:app --reload
   ```bash
   curl -X POST http://127.0.0.1:8000/process \
   -H "Content-Type: application/json" \
-  -d '{"input_text": "Your long document..."}'
+  -d '{"input_text": "Your long document..."}'-->
 
