@@ -31,4 +31,3 @@ async def agent1_process(document: str) -> Dict:
         "document": summary,
         "keywords": keywords
     }
-
